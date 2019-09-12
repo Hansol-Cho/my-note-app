@@ -1,12 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hansol cho app notepad</title>
+    <link href="https://fonts.googleapis.com/css?family=Chilanka&display=swap" rel="stylesheet">
+    <title>Hans cho app notepad</title>
 </head>
+
 <body>
-    <h1>HELLO WORLD</h1>
+
+    <div id="note" contenteditable
+        style="border: 1px black solid; min-height: 250px; background: rgb(240, 236, 40);font-family: 'Chilanka', cursive;">
+    </div>
+
+
+    <script src="https://unpkg.com/filer/dist/filer.min.js"></script>
+    <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+
+    <script>
+
+        const fs = new Filer.FileSystem();
+        window.addEventListener('DOMContentLoaded', (event) => {
+            console.log('DOM fully loaded and parsed');
+            fs.readFile('/note', 'utf8', function (err, data) {
+                if (err) {
+                    document.querySelector("#note").innerHTML = "Welcome to my note app!";
+                }
+                if (data) {
+                    document.querySelector("#note").innerHTML = data;
+                }
+
+
+                function saveNote() {
+                    fs.writeFile('/note', document.querySelector('#note').innerHTML, (err) => {
+                        if (err) {
+                            throw err;
+                        } else {
+                            console.log("Note saved!" + document.querySelector("#note").innerHTML);
+                        }
+                    });
+
+                }
+
+                setInterval(() => { saveNote() }, 2000);
+
+
+            })
+        });
+    </script>
 </body>
+
 </html>
