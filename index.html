@@ -26,19 +26,19 @@
             console.log('DOM fully loaded and parsed');
             fs.readFile('/note', 'utf8', function (err, data) {
                 if (err) {
-                    document.querySelector("#note").innerHTML = "Welcome to my note app!";
+                    document.querySelector("#note").innerText = "Welcome to my note app!";
                 }
                 if (data) {
-                    document.querySelector("#note").innerHTML = data;
+                    document.querySelector("#note").innerText = data;
                 }
 
 
                 function saveNote() {
-                    fs.writeFile('/note', document.querySelector('#note').innerHTML, (err) => {
+                    fs.writeFile('/note', document.querySelector('#note').innerText, (err) => {
                         if (err) {
-                            throw err;
+                            window.alert('Message failed to be saved!');
                         } else {
-                            console.log("Note saved!" + document.querySelector("#note").innerHTML);
+                            console.log("Note saved!" + document.querySelector("#note").innerText);
                         }
                     });
 
