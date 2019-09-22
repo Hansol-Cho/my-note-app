@@ -37,13 +37,17 @@
                 }
 
 
-                function saveNote() {
+                /**
+                @param {Function} callback An optional callback function, this has a singl boolean argument which indicates saving success
+                */
+                function saveNote(callback) {
                     fs.writeFile('/note', document.querySelector('#note').innerText, (err) => {
-                        if (err) {
-                            window.alert('Message failed to be saved!');
-                        } else {
-                            console.log("Note saved!" + document.querySelector("#note").innerText);
-                        }
+                        if (!err) console.log("Note saved!" + document.querySelector("#note").innerText);
+                        else console.log("Error: " + err);
+
+                        // Confirm callback is defined
+                        if (callback)
+                            callback(!err)
                     });
 
                 }
@@ -51,7 +55,7 @@
                 setInterval(() => { saveNote() }, 2000);
 
 
-                <!-- setting up hotkeys shortcut feature for instant saving the note -->
+                // setting up hotkeys shortcut feature for instant saving the note
                 hotkeys.filter = function(event) {
                     var tagName = (event.target || event.srcElement).tagName;
                     return !(tagName.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
@@ -59,11 +63,11 @@
 
                 hotkeys('ctrl+s', function(event, handler) {
                     event.preventDefault();
-                    saveNote();
-                    alert('Saved!');
+                    saveNote(function(success) {
+                        if (success) alert('Saved!');
+                        else alert('Message failed to be saved!');
+                    });
                 });
-
-
             })
         });
     </script>
