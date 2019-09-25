@@ -30,7 +30,7 @@
             console.log('DOM fully loaded and parsed');
             fs.readFile('/note', 'utf8', function (err, data) {
                 if (err || data.length === 0) {
-                    document.querySelector("#note").innerHTML = "Welcome to my note app!";
+                    document.querySelector("#note").innerText = "Welcome to my note app!";
                 }
                 if (data) {
                     document.querySelector("#note").innerText = data;
